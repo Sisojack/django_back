@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from . models import People
+from . models import People, Contact
 
 # Create your views here.
 def index(request):
@@ -16,3 +16,14 @@ def index(request):
         #get all Persons
     people= People.objects.all()
     return render(request, 'index.html', {'people':people})
+def contact(request):
+    if request.method=='POST':
+        name = request.POST.get('names')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        course = request.POST.get('course')
+        message = request.POST.get('message')
+
+        savecontact=Contact(name=name, email=email, phone=phone, course=course, message=message)
+        savecontact.save()
+    return render(request, 'contact.html')
